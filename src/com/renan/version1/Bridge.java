@@ -14,8 +14,9 @@ public class Bridge {
     public synchronized void crossBridge(Monkey monkey){
         if(numberOfMonkeysCrossing == 0){
             riverOrigin = monkey.getRiverMargin();
+            System.out.println("\t\tPonte vazia");
         }
-        System.out.println("Número de Macacos na ponte: " + numberOfMonkeysCrossing);
+        System.out.println("\tNúmero de Macacos na ponte: " + numberOfMonkeysCrossing);
         while (monkey.getRiverMargin() != riverOrigin){
             try {
                 wait();
@@ -28,8 +29,6 @@ public class Bridge {
     public synchronized void endCrossingBridge(){
                 notifyAll();
                 numberOfMonkeysCrossing--;
-                if(numberOfMonkeysCrossing == 0){
-                    System.out.println("\tPonte vazia");
-                }
+
     }
 }

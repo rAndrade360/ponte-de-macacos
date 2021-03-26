@@ -6,6 +6,7 @@ public class Bridge {
     private Semaphore semaphore;
     public static RiverMargin riverOrigin = RiverMargin.MARGIN1;
     public static int numberOfMonkeysCrossing = 0;
+    public static boolean isGorillaCrossing = false;
 
     public Bridge(Semaphore semaphore){
         this.semaphore = semaphore;
@@ -13,10 +14,13 @@ public class Bridge {
 
     public synchronized void crossBridge(Monkey monkey){
         if(numberOfMonkeysCrossing == 0){
+            System.out.println("\t\tPonte vazia");
             riverOrigin = monkey.getRiverMargin();
+
         }
-        System.out.println("Número de Macacos na ponte: " + numberOfMonkeysCrossing);
-        while (monkey.getRiverMargin() != riverOrigin){
+
+        System.out.println("\tNúmero de Macacos na ponte: " + numberOfMonkeysCrossing);
+        while (monkey.getRiverMargin() != riverOrigin || isGorillaCrossing || (monkey.getClass().getSimpleName().equals("Gorilla") && numberOfMonkeysCrossing > 0)){
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -28,8 +32,5 @@ public class Bridge {
     public synchronized void endCrossingBridge(){
                 notifyAll();
                 numberOfMonkeysCrossing--;
-                if(numberOfMonkeysCrossing == 0){
-                    System.out.println("\tPonte vazia");
-                }
     }
 }
